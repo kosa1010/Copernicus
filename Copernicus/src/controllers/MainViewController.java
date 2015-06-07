@@ -5,16 +5,25 @@
  */
 package controllers;
 
-import copernicus.MyAlerts;
+import copernicus.profiles.Case;
+import copernicus.profiles.Category;
+import copernicus.profiles.ClassifiedCase;
+import copernicus.profiles.DataTable;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.TextArea;
+import javafx.scene.control.MenuItem;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileFilter;
@@ -26,28 +35,85 @@ import javax.swing.filechooser.FileNameExtensionFilter;
  */
 public class MainViewController implements Initializable {
 
-    private String FileName;
+    private String fileName;
+    private String path;
+
+    File selectFile;
+    DataTable dt = new DataTable(null);
 
     @FXML
     private TextField tfPath;
-    
+
     @FXML
-    private TextArea taDataView;
+    private MenuItem miClose;
+
+    @FXML
+    private TableView<Case> tvData;
+
+    @FXML
+    private TableColumn<Case, String> tcHp;
+
+    @FXML
+    private TableColumn<Case, String> tcPs;
+
+    @FXML
+    private TableColumn<Case, String> tcPt;
+
+    @FXML
+    private TableColumn<Case, String> tcSc;
+
+    @FXML
+    private TableColumn<Case, String> tcIt;
+
+    @FXML
+    private TableColumn<Case, String> tcD;
+
+    @FXML
+    private TableColumn<Case, String> tcMa;
+
+    @FXML
+    private TableColumn<Case, String> tcF;
+
+    @FXML
+    private TableColumn<Case, String> tcHy;
+
+    @FXML
+    private TableColumn<Case, String> tcPa;
+
+    @FXML
+    private TableColumn<Case, String> tcMk;
+
+    @FXML
+    private TableColumn<Case, String> tcL;
+
+    @FXML
+    private TableColumn<Case, String> tcK;
+
+    @FXML
+    private TableColumn<Case, Category> tcDecisions;
 
     @FXML
     private Button btnBrowse;
 
     @FXML
-    void handleBtnBrowse(ActionEvent event) {
+    void handleBtnBrowse(ActionEvent event) throws FileNotFoundException {
         swingFileChooser("Wczytaj plik z danymi", "Pliki z danymi (*.dat)", "dat");
     }
 
+    public String getPath() {
+        return path;
+    }
+
+    public void setPath(String path) {
+        this.path = path;
+    }
+
     public String getFileName() {
-        return FileName;
+        return fileName;
     }
 
     public void setFileName(String FileName) {
-        this.FileName = FileName;
+        this.fileName = FileName;
     }
 
     @Override
@@ -55,19 +121,19 @@ public class MainViewController implements Initializable {
         // TODO
     }
 
-    public void swingFileChooser(String title, String fFilter, String extension1) {
+    public void swingFileChooser(String title, String fFilter, String extension1) throws FileNotFoundException {
         final JFileChooser jfChooser = new JFileChooser();
         FileFilter fileFilter = new FileNameExtensionFilter(fFilter, extension1);
         jfChooser.setDialogTitle(title);
         jfChooser.setFileFilter(fileFilter);
         jfChooser.setVisible(true);
         int result = jfChooser.showSaveDialog(jfChooser);
-        String path;
         if (result == JFileChooser.APPROVE_OPTION) {
-            File selectFile = jfChooser.getSelectedFile();
+            selectFile = jfChooser.getSelectedFile();
+            dt.read(selectFile, ',', 1);
             setFileName(selectFile.getName());
-            path = selectFile.getAbsolutePath();
-            tfPath.setText(path);
+            setPath(selectFile.getAbsolutePath());
+            tfPath.setText(getPath());
 
             int dot = 0;
             String extension;
@@ -78,13 +144,56 @@ public class MainViewController implements Initializable {
             }
             extension = path.substring(dot + 1);
             if ("dat".equals(extension)) {
+                System.out.println("Plik dat");
 
+                String a = dt.getCaseCategory(0);
+                System.out.println("dfhbsnv" + a);
+                String atrybut = dt.getAttribute(0);
+                System.out.println("atrybut " + atrybut);
+//                ArrayList<String> aa = dt.getAttributeNames();
+//                for (int i = 0; i < aa.size(); i++) {
+//                    Case c = new Case(i, 1, null);
+//                    System.out.print(aa.get(i) + "\t");
+//                    System.out.println(c);
+//                }
+                int atrybuty = dt.getAttributeNumber();
+                System.out.println("liczba atrybutwów " + atrybuty);
+                ArrayList<Category> categ = dt.getCategories();
+                System.out.println("Kategorie do klasyfikacji\n");
+                for (int i = 0; i < categ.size(); i++) {
+                    System.out.println(categ.get(i) + "\t");
+                }
+                System.out.println();
+                int numObjects = dt.getNumberOfSelectObjects();
+                System.out.println(numObjects);
+                System.out.println(dt.getObjectNumber());
+                for (int k = 0; k < numObjects; k++) {
+                    ClassifiedCase obj = dt.getObject(k);
+                    ArrayList<Double> cos = obj.getFeatures();
+                    for (int i = 0; i < cos.size(); i++) {
+                        //   System.err.print(cos.get(i) + "\t");
+                    }
+                    //System.err.println("");
+                }
+                insertCasesToTable();
             }
         }
         if (result == JFileChooser.CANCEL_OPTION) {
             tfPath.setText("");
             jfChooser.setVisible(false);
         }
+    }
+
+    private void insertCasesToTable() {
+        DataTable dTable = new DataTable(null);
+        List<Case> objList = new ArrayList<>();
+        System.out.println(dTable.getNumberOfSelectObjects());
+        for (int i = 0; i < dTable.getObjectNumber(); i++) {
+            Case c = new Case(i, 1, null);
+            objList.add(c);
+        }
+        ObservableList<Case> allObjectsList = FXCollections.observableArrayList(objList);
+        tvData.setItems(allObjectsList);
     }
 
 }
