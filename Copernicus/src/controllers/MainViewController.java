@@ -98,6 +98,8 @@ public class MainViewController implements Initializable {
     @FXML
     void handleBtnBrowse(ActionEvent event) throws FileNotFoundException {
         swingFileChooser("Wczytaj plik z danymi", "Pliki z danymi (*.dat)", "dat");
+        insertCasesToTable();
+        showData();
     }
 
     public String getPath() {
@@ -165,23 +167,25 @@ public class MainViewController implements Initializable {
                 }
                 System.out.println();
                 int numObjects = dt.getNumberOfSelectObjects();
-                System.out.println(numObjects);
+                System.out.println("liczba objektów " + numObjects);
                 System.out.println(dt.getObjectNumber());
                 for (int k = 0; k < numObjects; k++) {
                     ClassifiedCase obj = dt.getObject(k);
                     ArrayList<Double> cos = obj.getFeatures();
+                    System.out.print(k + "|\t");
                     for (int i = 0; i < cos.size(); i++) {
-                        //   System.err.print(cos.get(i) + "\t");
+                        System.out.print(cos.get(i) + "\t");
                     }
-                    //System.err.println("");
+                    System.out.println(obj.getCategory());
                 }
-                insertCasesToTable();
+
             }
+          
         }
         if (result == JFileChooser.CANCEL_OPTION) {
             tfPath.setText("");
             jfChooser.setVisible(false);
-        }
+        }  
     }
 
     private void insertCasesToTable() {
@@ -196,4 +200,12 @@ public class MainViewController implements Initializable {
         tvData.setItems(allObjectsList);
     }
 
+    private void showData() {
+        ArrayList<String> aa = dt.getAttributeNames();
+        for (int i = 0; i < aa.size(); i++) {
+            Case c = new Case(i, 1, null);
+            System.out.print(aa.get(i) + "\t");
+            System.out.println(c);
+        }
+    }
 }
