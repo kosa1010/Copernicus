@@ -57,6 +57,7 @@ public class DataTable extends BasicDataTable {
                 n++;
             }
         }
+
         return n;
     }
 
@@ -178,7 +179,7 @@ public class DataTable extends BasicDataTable {
         return this.objects.get(0);
     }
 
-    public ArrayList<String> getAttributeNames() {//nazwy atrybutów
+    public ArrayList<String> getAttributeNames() {
         return this.attributes;
     }
 
