@@ -180,19 +180,17 @@ public class MainViewController implements Initializable {
                 }
 
             }
-          
+
         }
         if (result == JFileChooser.CANCEL_OPTION) {
             tfPath.setText("");
             jfChooser.setVisible(false);
-        }  
+        }
     }
 
     private void insertCasesToTable() {
-        DataTable dTable = new DataTable(null);
         List<Case> objList = new ArrayList<>();
-        System.out.println(dTable.getNumberOfSelectObjects());
-        for (int i = 0; i < dTable.getObjectNumber(); i++) {
+        for (int i = 0; i < dt.getObjectNumber(); i++) {
             Case c = new Case(i, 1, null);
             objList.add(c);
         }
