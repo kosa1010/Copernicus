@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+
+<AnchorPane id="AnchorPane" prefHeight="520.0" prefWidth="700.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="controllers.MainViewController">
+   <children>
+      <TabPane layoutX="2.0" layoutY="71.0" prefHeight="449.0" prefWidth="700.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="71.0">
+        <tabs>
+          <Tab text="Podgląd danych">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <TableView fx:id="tvData" prefHeight="407.0" prefWidth="700.0" tableMenuButtonVisible="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                          <columns>
+                            <TableColumn fx:id="tcL" prefWidth="75.0" text="L" />
+                            <TableColumn fx:id="tcF" prefWidth="75.0" text="F" />
+                              <TableColumn fx:id="tcK" prefWidth="75.0" text="K" />
+                              <TableColumn fx:id="tcHp" prefWidth="75.0" text="1.Hp" />
+                              <TableColumn fx:id="tcD" prefWidth="75.0" text="2.D" />
+                              <TableColumn fx:id="tcHy" prefWidth="75.0" text="3.Hy" />
+                              <TableColumn fx:id="tcPs" prefWidth="75.0" text="4.Ps" />
+                              <TableColumn fx:id="tcMk" prefWidth="75.0" text="5.Mk" />
+                              <TableColumn fx:id="tcPa" prefWidth="75.0" text="6.Pa" />
+                              <TableColumn fx:id="tcPt" prefWidth="75.0" text="7.Pt" />
+                              <TableColumn fx:id="tcSc" prefWidth="75.0" text="8.Sc" />
+                              <TableColumn fx:id="tcMa" prefWidth="75.0" text="9.Ma" />
+                              <TableColumn fx:id="tcIt" prefWidth="75.0" text="0.It" />
+                              <TableColumn fx:id="tcDecisions" prefWidth="75.0" text="Klasa" />
+                          </columns>
+                           <columnResizePolicy>
+                              <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                           </columnResizePolicy>
+                        </TableView>
+                     </children>
+                  </AnchorPane>
+            </content>
+          </Tab>
+          <Tab text="Untitled Tab 2">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+            </content>
+          </Tab>
+        </tabs>
+      </TabPane>
+      <TextField fx:id="tfPath" layoutX="15.0" layoutY="47.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="99.0" AnchorPane.topAnchor="37.0" />
+      <Button fx:id="btnBrowse" layoutX="604.0" layoutY="46.0" mnemonicParsing="false" onAction="#handleBtnBrowse" text="Przeglądaj" AnchorPane.rightAnchor="13.0" AnchorPane.topAnchor="37.0" />
+      <MenuBar prefHeight="29.0" prefWidth="700.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <menus>
+          <Menu mnemonicParsing="false" text="Plik">
+            <items>
+              <MenuItem fx:id="miClose" mnemonicParsing="false" text="Zamknij" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Edycja" />
+          <Menu mnemonicParsing="false" text="Widok">
+            <items>
+              <MenuItem mnemonicParsing="false" text="About" />
+            </items>
+          </Menu>
+        </menus>
+      </MenuBar>
+   </children>
+</AnchorPane>
